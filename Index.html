@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QĐ - Uy Tín - An Toàn - Chất Lượng</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96c93d);
+      background-size: 400%;
+      animation: gradientBG 15s ease infinite;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .header {
+      text-align: center;
+      padding: 20px 0;
+      animation: fadeInDown 1s ease-out;
+    }
+
+    .header h1 {
+      font-size: 2.5em;
+      margin: 0;
+    }
+
+    .header p {
+      font-size: 1.2em;
+      margin: 10px 0;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 15px 0;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+      margin-bottom: 20px;
+      animation: fadeIn 1.5s ease-out;
+    }
+
+    .nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.1em;
+      padding: 10px 20px;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .nav a:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 5px;
+    }
+
+    .hamburger {
+      display: none;
+      font-size: 2em;
+      cursor: pointer;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 5px;
+      transition: transform 0.3s ease;
+    }
+
+    .hamburger:hover {
+      transform: scale(1.1);
+    }
+
+    .section {
+      margin: 40px 0;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .section h2 {
+      text-align: center;
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .service-card {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 10px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: slideIn 1.2s ease-out;
+    }
+
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .service-card h3 {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+
+    .service-card p, .service-card ul {
+      font-size: 1em;
+      line-height: 1.6;
+    }
+
+    .service-card a {
+      display: inline-block;
+      margin-top: 10px;
+      color: #ff6b6b;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    .service-card a:hover {
+      color: #4ecdc4;
+    }
+
+    .cta {
+      text-align: center;
+      margin: 40px 0;
+    }
+
+    .cta a {
+      display: inline-block;
+      padding: 15px 30px;
+      background: #ff6b6b;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 1.2em;
+      transition: transform 0.3s ease, background 0.3s ease;
+      animation: pulse 2s infinite;
+    }
+
+    .cta a:hover {
+      transform: scale(1.05);
+      background: #4ecdc4;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 20px 0;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+      animation: fadeIn 2s ease-out;
+    }
+
+    .footer a {
+      color: #ff6b6b;
+      text-decoration: none;
+      margin: 0 10px;
+      transition: color 0.3s ease;
+    }
+
+    .footer a:hover {
+      color: #4ecdc4;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @media (max-width: 768px) {
+      .nav {
+        display: none;
+      }
+      .hamburger {
+        display: block;
+        position: fixed;
+        top: 20px;
+        right: 20px;
+      }
+      .nav.active {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 60px;
+        right: 20px;
+        background: rgba(0, 0, 0, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="particles-js"></div>
+  <div class="container">
+    <div class="header">
+      <h1>QUANG ĐỊNH DEVELOPER 🧑‍💻</h1>
+      <p>UY TÍN - AN TOÀN - CHẤT LƯỢNG</p>
+    </div>
+
+    <div class="hamburger">☰</div>
+    <div class="nav">
+      <a href="#home">Trang chủ</a>
+      <a href="#services">Dịch vụ</a>
+      <a href="#support">Hỗ trợ</a>
+      <a href="#contact">Liên hệ</a>
+    </div>
+
+    <div class="section" id="home">
+      <h2>🔧 CHUYÊN ĐIỆN THOẠI - MÁY TÍNH - PHẦN MỀM - TRICK,... ! HỖ TRỢ ONLINE</h2>
+      <p>Chuyên xử lý lỗi, tối ưu hiệu năng, tinh chỉnh hệ thống — 100% online qua TeamViewer / AnyDesk (NẾU CẦN). Tư vấn miễn phí, cam kết bảo mật.</p>
+    </div>
+
+    <div class="section" id="services">
+      <h2>✅ DỊCH VỤ PHẦN MỀM</h2>
+      <div class="services">
+        <div class="service-card">
+          <h3>🔹 ROOT – TỐI ƯU – ÉP XUNG</h3>
+          <p>Tăng hiệu năng, tinh chỉnh hệ thống (cần root cho một số thao tác).</p>
+          <ul>
+            <li>Root / unroot / ẩn root hệ thống</li>
+            <li>Ép xung CPU – GPU (tăng FPS, giảm lag — cần root)</li>
+            <li>Tối ưu hệ thống: tăng độ mượt, chỉnh tốc độ vuốt, touch boost, giảm response delay</li>
+          </ul>
+          <a href="#support">HỖ TRỢ</a>
+        </div>
+
+        <div class="service-card">
+          <h3>💾 ROM – FIRMWARE – BOOT</h3>
+          <p>Vận hành ROM, recovery và xử lý bootloop.</p>
+          <ul>
+            <li>Up ROM cook, ROM gốc (stock)</li>
+            <li>Cài custom recovery: TWRP, OrangeFox, v.v.</li>
+            <li>Fix lỗi up ROM sai, treo logo, bootloop</li>
+            <li>Backup – Restore dữ liệu, IMEI</li>
+          </ul>
+          <a href="#support">HỖ TRỢ</a>
+        </div>
+
+        <div class="service-card">
+          <h3>📱 TÙY CHỈNH GIAO DIỆN & HỆ THỐNG</h3>
+          <p>Tùy biến đẹp & nhẹ, giảm tải cho máy yếu.</p>
+          <ul>
+            <li>Cài module Magisk: chặn quảng cáo, tăng hiệu năng, mở rộng tính năng</li>
+            <li>Cài launcher nhẹ cho máy yếu</li>
+          </ul>
+          <a href="#support">HỖ TRỢ</a>
+        </div>
+
+        <div class="service-card">
+          <h3>📡 SỬA LỖI – KHẮC PHỤC</h3>
+          <p>Xử lý mạng, phần cứng phần mềm, máy lag.</p>
+          <ul>
+            <li>Mất sóng, mất IMEI, không nhận SIM</li>
+            <li>Wifi / Bluetooth không hoạt động</li>
+            <li>Lỗi không cập nhật được phần mềm</li>
+            <li>Máy lag, giật, đứng app – xử lý tận gốc</li>
+          </ul>
+          <a href="#support">HỖ TRỢ</a>
+        </div>
+
+        <div class="service-card">
+          <h3>🔐 MỞ KHÓA & APP ĐẶC BIỆT</h3>
+          <p>FRP, tài khoản, CH Play, ngôn ngữ — giải pháp toàn diện.</p>
+          <ul>
+            <li>Bỏ tài khoản Google (FRP), Samsung Account</li>
+            <li>Cài CH Play cho máy nội địa (Huawei, Xiaomi Trung...)</li>
+            <li>Cài tiếng Việt cho máy xách tay (Hàn, Nhật, Trung...)</li>
+          </ul>
+          <a href="#support">HỖ TRỢ</a>
+        </div>
+      </div>
+      <p>🛠 KHÁC: Tư vấn chọn ROM phù hợp từng dòng máy. Còn nhiều dịch vụ khác — inbox để được báo giá & hỗ trợ.</p>
+    </div>
+
+    <div class="section cta" id="support">
+      <h2>📲 HỖ TRỢ TỪ XA – KHÔNG CẦN MANG MÁY</h2>
+      <p>Làm online qua TeamViewer, AnyDesk. Cam kết bảo mật, hỗ trợ backup trước khi thao tác.</p>
+      <a href="#contact">YÊU CẦU HỖ TRỢ</a>
+      <p>Cam kết: không mất dữ liệu (trừ khi yêu cầu up ROM). Tư vấn miễn phí — inbox kiểm tra máy trước khi làm.</p>
+    </div>
+
+    <div class="footer" id="contact">
+      <h2>Liên hệ & Hỗ trợ</h2>
+      <p>Inbox/Zalo/Telegram — cung cấp model, ROM, vấn đề đang gặp để được tư vấn nhanh.</p>
+      <a href="https://t.me/dinhaz">Telegram Tích Xanh</a>
+      <a href="https://www.facebook.com/profile.php?id=61578359130212">Facebook Chính Chủ</a>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script>
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: "#ffffff" },
+        shape: { type: "circle" },
+        opacity: { value: 0.5, random: true },
+        size: { value: 3, random: true },
+        line_linked: { enable: true, distance: 150, color: "#ffffff", opacity: 0.4, width: 1 },
+        move: { enable: true, speed: 2, direction: "none", random: true, straight: false }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: true, mode: "push" } },
+        modes: { repulse: { distance: 100, duration: 0.4 }, push: { particles_nb: 4 } }
+      },
+      retina_detect: true
+    });
+
+    const hamburger = document.querySelector('.hamburger');
+    const nav = document.querySelector('.nav');
+    hamburger.addEventListener('click', () => {
+      nav.classList.toggle('active');
+    });
+  </script>
+</body>
+</html>
