@@ -1,512 +1,207 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Chuyên điện thoại - máy tính - đồ điện tử - lập trình. Uy tín bởi Quang Dinh Developer. Hỗ trợ online. Tư vấn miễn phí, cam kết bảo mật.">
-  <meta name="keywords" content="root Android, tối ưu điện thoại, fix bootloop, cài ROM, hỗ trợ kỹ thuật online, ép xung CPU, tùy chỉnh giao diện, mở khóa FRP">
-  <meta name="author" content="Quang Dinh Developer">
-  <title>LU QUANG DINH - Chuyên Điện Thoại - Máy Tính - Phần Mềm</title>
-  <style>
-    :root {
-      --bg-color: #f4f4f4;
-      --text-color: #333;
-      --header-bg: #1a73e8;
-      --card-bg: white;
-      --btn-bg: #1a73e8;
-      --btn-hover: #135ab6;
-    }
-    body.dark-mode {
-      --bg-color: #121212;
-      --text-color: #e0e0e0;
-      --header-bg: #0d47a1;
-      --card-bg: #1e1e1e;
-      --btn-bg: #0d47a1;
-      --btn-hover: #0b3b8a;
-    }
-    body {
-      font-family: 'Inter', sans-serif; /* Font giống Grok AI: Inter từ Google Fonts */
-      margin: 0;
-      padding: 0;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      transition: background-color 0.3s, color 0.3s;
-      scroll-behavior: smooth; /* Điều hướng mượt mà khi click nav */
-    }
-    header {
-      background-color: var(--header-bg);
-      color: white;
-      padding: 2rem 1rem;
-      text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: linear-gradient(135deg, var(--header-bg), #4a90e2);
-      transform: translateY(0);
-      transition: padding 0.3s ease, font-size 0.3s ease;
-    }
-    header.shrink {
-      padding: 1rem 1rem; /* Thu nhỏ khi scroll lên */
-    }
-    header.shrink h1 {
-      font-size: 1.5rem; /* Giảm kích thước tiêu đề */
-    }
-    header.parallax {
-      background-attachment: fixed;
-      background-position: center;
-      background-size: cover;
-    }
-    #theme-toggle {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: none;
-      border: none;
-      color: white;
-      font-size: 1.5rem;
-      cursor: pointer;
-      transition: transform 0.3s;
-    }
-    #theme-toggle:hover {
-      transform: rotate(360deg);
-    }
-    .typing-effect {
-      display: inline-block; /* Fix lỗi typing: sử dụng inline-block để width hoạt động đúng */
-      overflow: hidden;
-      white-space: nowrap;
-      border-right: 0.15em solid white;
-      animation: typing 3s steps(30, end) forwards, blink-caret 0.75s step-end infinite;
-      width: 0; /* Bắt đầu từ width 0 để hiệu ứng gõ chữ */
-    }
-    nav {
-      background-color: #333;
-      padding: 1rem;
-      text-align: center;
-    }
-    nav a {
-      color: white;
-      margin: 0 1rem;
-      text-decoration: none;
-      font-weight: bold;
-      opacity: 0;
-      animation: fadeIn 1s ease forwards;
-      animation-delay: calc(0.2s * var(--i));
-      position: relative; /* Để thêm vạch dưới */
-      transition: color 0.3s;
-    }
-    nav a::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: -5px;
-      width: 0;
-      height: 2px;
-      background-color: var(--header-bg);
-      transition: width 0.5s ease; /* Animation vạch dưới từ trái qua phải */
-    }
-    nav a:hover::after, nav a.active::after {
-      width: 100%;
-    }
-    nav a:hover {
-      color: var(--header-bg);
-      transform: scale(1.1);
-      display: inline-block;
-      transition: transform 0.3s;
-    }
-    nav a.active {
-      color: var(--header-bg); /* Highlight nav active */
-    }
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-    .services {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-    }
-    .service-card {
-      background: var(--card-bg);
-      padding: 1.5rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      opacity: 0;
-      transform: translateX(-50px);
-      animation: slideIn 0.5s ease forwards;
-      animation-delay: calc(0.2s * var(--i));
-    }
-    .service-card:hover {
-      transform: scale(1.05) rotate(2deg);
-      transition: transform 0.3s;
-    }
-    .service-card h3 {
-      color: var(--header-bg);
-    }
-    .service-card img {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-      margin-bottom: 1rem;
-      opacity: 0;
-      animation: fadeIn 1s ease forwards 0.5s;
-    }
-    .support-btn {
-      background-color: var(--btn-bg);
-      color: white;
-      padding: 0.5rem 1rem;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      animation: pulse 2s infinite;
-    }
-    .support-btn:hover {
-      background-color: var(--btn-hover);
-      animation: none;
-      transform: translateY(-2px);
-    }
-    .contact-form, .newsletter-form {
-      background: var(--card-bg);
-      padding: 2rem;
-      border-radius: 8px;
-      margin-top: 2rem;
-      opacity: 0;
-      animation: fadeInUp 1s ease forwards 0.5s;
-    }
-    .contact-form input, .contact-form textarea, .newsletter-form input {
-      width: 100%;
-      padding: 0.5rem;
-      margin: 0.5rem 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      background: var(--bg-color);
-      color: var(--text-color);
-      transition: border-color 0.3s;
-    }
-    .contact-form input:focus, .contact-form textarea:focus, .newsletter-form input:focus {
-      border-color: var(--header-bg);
-      outline: none;
-    }
-    #search-bar {
-      width: 100%;
-      padding: 0.5rem;
-      margin-bottom: 2rem;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      opacity: 0;
-      animation: fadeIn 1s ease forwards 0.3s;
-    }
-    .testimonial {
-      background: var(--card-bg);
-      padding: 1rem;
-      margin: 1rem 0;
-      border-left: 5px solid var(--header-bg);
-      font-style: italic;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: bounceIn 0.8s ease forwards;
-      animation-delay: calc(0.2s * var(--i));
-    }
-    .blog-post {
-      background: var(--card-bg);
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-      border-radius: 8px;
-      opacity: 0;
-      animation: fadeInUp 1s ease forwards;
-      animation-delay: calc(0.2s * var(--i));
-    }
-    .portfolio-gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-    }
-    .portfolio-gallery img {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-      opacity: 0;
-      animation: fadeIn 1s ease forwards;
-      animation-delay: calc(0.2s * var(--i));
-    }
-    footer {
-      background-color: #333;
-      color: white;
-      text-align: center;
-      padding: 1rem;
-      margin-top: 2rem;
-      opacity: 0;
-      animation: fadeIn 1s ease forwards 0.5s;
-    }
-    @media (max-width: 768px) {
-      nav a {
-        display: block;
-        margin: 0.5rem 0;
-      }
-      .services {
-        grid-template-columns: 1fr;
-      }
-      header.parallax {
-        background-attachment: scroll;
-      }
-    }
-    /* Animations */
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateX(-50px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes bounceIn {
-      0% { opacity: 0; transform: translateY(30px); }
-      60% { opacity: 1; transform: translateY(-10px); }
-      100% { transform: translateY(0); }
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); }
-    }
-    @keyframes typing {
-      from { width: 0; }
-      to { width: 100%; }
-    }
-    @keyframes blink-caret {
-      50% { border-color: transparent; }
-    }
-    /* Scroll-triggered animation */
-    .hidden {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-    .visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  </style>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet"> <!-- Font Inter giống Grok -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=YOUR-GA-ID"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'YOUR-GA-ID');
-  </script>
-  <script src="//code.tidio.co/YOUR-TIDIO-KEY.js" async></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>QUANG ĐỊNH | Dịch vụ Phần mềm - Điện thoại - Máy tính</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header class="parallax">
-    <h1 class="typing-effect">QUANG ĐỊNH🧑‍💻</h1>
-    <p class="fade-in">UY TÍN - AN TOÀN - CHẤT LƯỢNG</p>
-    <marquee>Chào mừng đến với website của LÙ QUANG ĐỊNH 🧑‍💻 Chuyên cung cấp các dịch vụ uy tín, an toàn, chất lượng. Tư vấn miễn phí, hỗ trợ nhiệt tình</marquee>
-    <button id="theme-toggle">🌙</button>
-  </header>
 
-  <nav>
-    <a href="#home" style="--i: 1;" data-section="home">🏠 Trang chủ</a>
-    <a href="#services" style="--i: 2;" data-section="services">🧮 Dịch vụ</a>
-    <a href="#blog" style="--i: 3;" data-section="blog">🛑 Blog</a>
-    <a href="#portfolio" style="--i: 4;" data-section="portfolio">🧑‍💻 Portfolio</a>
-    <a href="#support" style="--i: 5;" data-section="support">🧑‍🔧 Hỗ trợ</a>
-    <a href="#contact" style="--i: 6;" data-section="contact">📞 Liên hệ</a>
-  </nav>
-
-  <div class="container fade-in" id="home">
-    <h2 class="hidden">Giới thiệu về LÙ QUANG ĐỊNH </h2>
-    <p class="hidden">Tôi là Quang Định, một lập trình viên với hơn 4 năm kinh nghiệm trong lĩnh vực lập trình - thiết bị di động và máy tính. Đã hỗ trợ hơn 300 khách hàng. Cam kết uy tín, bảo mật dữ liệu 100%.</p>
-
-    <h2 class="hidden">🔧 CHUYÊN ĐIỆN THOẠI - MÁY TÍNH - PHẦN MỀM - TRICK,... ! HỖ TRỢ ONLINE</h2>
-    <p class="hidden">Chuyên xử lý lỗi, tối ưu hiệu năng, tinh chỉnh hệ thống — 100% online qua TeamViewer / AnyDesk (NẾU CẦN). Tư vấn miễn phí, cam kết bảo mật.</p>
-
-    <input type="text" id="search-bar" placeholder="Tìm kiếm dịch vụ (ví dụ: root Android)" oninput="searchServices()">
-
-    <h2 id="services" class="hidden">✅ DỊCH VỤ PHẦN MỀM</h2>
-    <div class="services">
-      <div class="service-card" style="--i: 1;">
-        <img src="https://via.placeholder.com/300x200?text=Root+Android" alt="Tối ưu hiệu năng sau root" loading="lazy">
-        <h3>🔹 ROOT – TỐI ƯU – ÉP XUNG</h3>
-        <p>Tăng hiệu năng, tinh chỉnh hệ thống (cần root cho một số thao tác). hoàn thành trong 1-2 giờ.</p>
-        <ul>
-          <li>Root / unroot / ẩn root hệ thống</li>
-          <li>Ép xung CPU – GPU (tăng FPS, giảm lag — cần root)</li>
-          <li>Tối ưu hệ thống: tăng độ mượt, chỉnh tốc độ vuốt, touch boost, giảm response delay</li>
-        </ul>
-        <p>FAQ: Root có mất dữ liệu? Không, trừ khi up ROM.</p>
-        <iframe width="100%" height="200" src="https://www.youtube.com/embed/VIDEO-ID-DEMO-ROOT" title="Demo Root" frameborder="0" allowfullscreen loading="lazy"></iframe>
-        <button class="support-btn" onclick="location.href='#contact'">HỖ TRỢ</button>
-      </div>
-      <div class="service-card" style="--i: 2;">
-        <img src="https://via.placeholder.com/300x200?text=Up+ROM" alt="Cài ROM custom" loading="lazy">
-        <h3>💾 ROM – FIRMWARE – BOOT</h3>
-        <p>Vận hành ROM, recovery và xử lý bootloop.</p>
-        <ul>
-          <li>Up ROM cook, ROM gốc (stock)</li>
-          <li>Cài custom recovery: TWRP, OrangeFox, v.v.</li>
-          <li>Fix lỗi up ROM sai, treo logo, bootloop</li>
-          <li>Backup – Restore dữ liệu, IMEI</li>
-        </ul>
-        <button class="support-btn" onclick="location.href='#contact'">HỖ TRỢ</button>
-      </div>
-      <div class="service-card" style="--i: 3;">
-        <img src="https://via.placeholder.com/300x200?text=Tuy+Chinh+Giao+Dien" alt="Tùy chỉnh launcher" loading="lazy">
-        <h3>📱 TÙY CHỈNH GIAO DIỆN & HỆ THỐNG</h3>
-        <p>Tùy biến đẹp & nhẹ, giảm tải cho máy yếu.</p>
-        <ul>
-          <li>Cài module Magisk: chặn quảng cáo, tăng hiệu năng, mở rộng tính năng</li>
-          <li>Cài launcher nhẹ cho máy yếu</li>
-        </ul>
-        <button class="support-btn" onclick="location.href='#contact'">HỖ TRỢ</button>
-      </div>
-      <div class="service-card" style="--i: 4;">
-        <img src="https://via.placeholder.com/300x200?text=Sua+Loi" alt="Fix lỗi mạng" loading="lazy">
-        <h3>📡 SỬA LỖI – KHẮC PHỤC</h3>
-        <p>Xử lý mạng, phần cứng phần mềm, máy lag.</p>
-        <ul>
-          <li>Mất sóng, mất IMEI, không nhận SIM</li>
-          <li>Wifi / Bluetooth không hoạt động</li>
-          <li>Lỗi không cập nhật được phần mềm</li>
-          <li>Máy lag, giật, đứng app – xử lý tận gốc</li>
-        </ul>
-        <button class="support-btn" onclick="location.href='#contact'">HỖ TRỢ</button>
-      </div>
-      <div class="service-card" style="--i: 5;">
-        <img src="https://via.placeholder.com/300x200?text=Mo+Khoa+FRP" alt="Mở khóa Google FRP" loading="lazy">
-        <h3>🔐 MỞ KHÓA & APP ĐẶC BIỆT</h3>
-        <p>FRP, tài khoản, CH Play, ngôn ngữ — giải pháp toàn diện.</p>
-        <ul>
-          <li>Bỏ tài khoản Google (FRP), Samsung Account</li>
-          <li>Cài CH Play cho máy nội địa (Huawei, Xiaomi Trung...)</li>
-          <li>Cài tiếng Việt cho máy xách tay (Hàn, Nhật, Trung...)</li>
-        </ul>
-        <button class="support-btn" onclick="location.href='#contact'">HỖ TRỢ</button>
+  
+<header class="header">
+  <div class="container header-inner">
+    <div class="logo">
+      <img src="images/logo.jpg" alt="Logo" style="height:50px; border-radius:8px;">
+      <div>
+        <h1>Admin LÙ QUANG ĐỊNH 🧑‍🔧</h1>
+        <div class="small muted">Chuyên phần mềm · Điện thoại · Máy tính</div>
       </div>
     </div>
 
-    <h2 class="hidden">🛠 KHÁC: Tư vấn chọn ROM phù hợp từng dòng máy. Còn nhiều dịch vụ khác — inbox để được báo giá & hỗ trợ.</h2>
-    <p class="hidden">Ưu đãi tháng: Giảm 20% cho dịch vụ up ROM.</p>
+    <nav class="mainnav" id="mainnav" aria-label="Chính">
+      <a href="#home" class="active">Trang chủ</a>
+      <a href="#services">Dịch vụ</a>
+      <a href="#about">Giới thiệu</a>
+      <a href="#contact">Liên hệ</a>
+    </nav>
 
-    <h2 id="blog" class="hidden">📝 Blog & Hướng Dẫn</h2>
-    <div class="blog-post" style="--i: 1;">
-      <h3>Hướng Dẫn Tự Root Android Cơ Bản</h3>
-      <p>Root là gì? Cách root an toàn cho người mới... (Nội dung đầy đủ ở đây hoặc link đến bài chi tiết).</p>
-      <a href="#contact">Đọc thêm</a>
-    </div>
-    <div class="blog-post" style="--i: 2;">
-      <h3>Cách Fix Bootloop Tại Nhà</h3>
-      <p>Các bước cơ bản để khắc phục treo logo...</p>
-      <a href="#contact">Đọc thêm</a>
-    </div>
+    <button class="btn btn-primary" id="contactNowTop">Liên hệ ngay</button>
+  </div>
+</header>
 
-    <h2 id="portfolio" class="hidden">🖼 Portfolio & Case Study</h2>
-    <p class="hidden">Đã hỗ trợ 50+ máy Xiaomi fix mất IMEI. Dưới đây là một số ví dụ (before/after).</p>
-    <div class="portfolio-gallery">
-      <img src="https://via.placeholder.com/200?text=Before+Fix" alt="Trước khi fix" loading="lazy" style="--i: 1;">
-      <img src="https://via.placeholder.com/200?text=After+Fix" alt="Sau khi fix" loading="lazy" style="--i: 2;">
-      <img src="https://via.placeholder.com/200?text=Case+Study+1" alt="Case study 1" loading="lazy" style="--i: 3;">
-    </div>
 
-    <h2 class="hidden">Testimonial từ Khách Hàng</h2>
-    <div class="testimonial" style="--i: 1;">
-      "Uy tín mà giá chát quá sếp" - Lion duc.
-    </div>
-    <div class="testimonial" style="--i: 2;">
-      "Tối ưu máy yếu thành mượt như sunsil, giá hợp lý =}}" - Trann Baoo.
-    </div>
+  <main class="container">
+    <section id="home" class="hero">
+      <div class="hero-left">
+        <div class="slogan">🔧 DỊCH VỤ CHUYÊN NGHIỆP</div>
+        <h2>QUANG ĐỊNH — Tối ưu hệ thống, sửa lỗi, tùy chỉnh & unlock,...</h2>
+        <div class="tagline">Dịch vụ xử lý lỗi, tối ưu hiệu năng, tinh chỉnh hệ thống cho điện thoại, máy tính và phần mềm. Có thể hỗ trợ từ xa - an toàn.</div>
 
-    <h2 id="support" class="hidden">📲 HỖ TRỢ TỪ XA – KHÔNG CẦN MANG MÁY</h2>
-    <p class="hidden">Làm online qua TeamViewer, AnyDesk (NẾU CẦN). Cam kết bảo mật, hỗ trợ backup trước khi thao tác.</p>
-    <div class="calendly-inline-widget" data-url="https://calendly.com/YOUR-CALENDLY-LINK" style="min-width:320px;height:630px;"></div>
-    <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
-    <button class="support-btn" onclick="location.href='#contact'">YÊU CẦU HỖ TRỢ</button>
-    <p class="hidden">Cam kết: không mất dữ liệu (trừ khi yêu cầu up ROM). Tư vấn miễn phí — inbox kiểm tra máy trước khi làm.</p>
+        <div class="cta-row">
+          <button class="btn btn-primary" id="ctaContact">Liên hệ ngay</button>
+          <button class="btn btn-ghost" id="ctaServices">Xem dịch vụ</button>
+        </div>
 
-    <h2 id="contact" class="hidden">Liên hệ & Hỗ trợ</h2>
-    <p class="hidden">Inbox/Facebook/Telegram Tích Xanh — cung cấp model, ROM, vấn đề đang gặp để được tư vấn nhanh.</p>
-    <div class="contact-form">
-      <form action="https://formspree.io/f/your-form-id" method="POST">
-        <input type="text" name="name" placeholder="Họ và tên" required>
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="text" name="model" placeholder="Model máy (VD: Xiaomi Redmi Note 10)">
-        <textarea name="issue" placeholder="Mô tả vấn đề" rows="5" required></textarea>
-        <button type="submit" class="support-btn">Gửi Yêu Cầu</button>
-      </form>
-    </div>
-    <p class="hidden">
-      <a href="https://t.me/dinhaz" target="_blank">Telegram Tích Xanh</a> | 
-      <a href="https://www.facebook.com/profile.php?id=61578359130212" target="_blank">Facebook Chính Chủ</a>
-    </p>
+        <div class="strip small reveal" style="margin-top:18px">
+         <div class="item">📱 <b>ĐIỆN THOẠI</b></div>
+         <div class="item"🖥️ <b>MÁY TÍNH</b></div>
+        <div class="item"💾 <b>PHẦN MỀM</b></div>
+        </div>
+      </div>
 
-    <h2 class="hidden">Đăng Ký Newsletter</h2>
-    <div class="newsletter-form">
-      <form action="https://your-mailchimp-form-action" method="POST">
-        <input type="email" name="email" placeholder="Email của bạn" required>
-        <button type="submit" class="support-btn">Đăng Ký</button>
-      </form>
-    </div>
+      <aside class="hero-right">
+        <div class="panel reveal">
+          <h3 style="margin-top:0">Dịch vụ nổi bật</h3>
+          <ul style="list-style:none;padding:0;margin:6px 0 0 0;display:grid;gap:8px">
+            <li class="small" style="display:flex;justify-content:space-between"><span>ROOT – TỐI ƯU – ÉP XUNG</span><span class="muted">Tăng hiệu năng</span></li>
+            <li class="small" style="display:flex;justify-content:space-between"><span>ROM – FIRMWARE – BOOT</span><span class="muted">Flash & Recovery</span></li>
+            <li class="small" style="display:flex;justify-content:space-between"><span>TÙY CHỈNH GIAO DIỆN & HỆ THỐNG</span><span class="muted">Giao diện & trải nghiệm</span></li>
+            <li class="small" style="display:flex;justify-content:space-between"><span>SỬA LỖI – KHẮC PHỤC</span><span class="muted">Fix bug chuyên sâu</span></li>
+            <li class="small" style="display:flex;justify-content:space-between"><span>MỞ KHÓA & APP ĐẶC BIỆT</span><span class="muted">Unlock • Custom app</span></li>
+          </ul>
+        </div>
+      </aside>
+    </section>
+
+    <section id="services" class="services">
+      <h3 style="margin-bottom:12px">DỊCH VỤ NỔI BẬT</h3>
+      <div class="grid">
+
+        <article class="card reveal">
+          <div class="icon" aria-hidden>
+            <!-- cpu svg -->
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="3" stroke="white" stroke-opacity="0.12"/></svg>
+          </div>
+          <h3>ROOT – TỐI ƯU – ÉP XUNG</h3>
+          <p>Tùy chỉnh lõi, ép xung an toàn, cân bằng hiệu năng - pin theo yêu cầu.</p>
+        </article>
+
+        <article class="card reveal">
+          <div class="icon" aria-hidden>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 7h16v10H4z" stroke="white" stroke-opacity="0.12"></path></svg>
+          </div>
+          <h3>ROM – FIRMWARE – BOOT</h3>
+          <p>Flash ROM, cập nhật firmware, phục hồi bootloop và cài đặt custom ROM uy tín.</p>
+        </article>
+
+        <article class="card reveal">
+          <div class="icon" aria-hidden>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3" stroke="white" stroke-opacity="0.12"></circle></svg>
+          </div>
+          <h3>TÙY CHỈNH GIAO DIỆN & HỆ THỐNG</h3>
+          <p>Thiết kế theme, icon, chỉnh system UI, tối ưu trải nghiệm theo yêu cầu.</p>
+        </article>
+
+        <article class="card reveal">
+          <div class="icon" aria-hidden>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 12h18" stroke="white" stroke-opacity="0.12"></path></svg>
+          </div>
+          <h3>SỬA LỖI – KHẮC PHỤC</h3>
+          <p>Phân tích root cause, sửa lỗi phần mềm/phần cứng liên quan, test đầy đủ trước bàn giao.</p>
+        </article>
+
+        <article class="card reveal">
+          <div class="icon" aria-hidden>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3v18" stroke="white" stroke-opacity="0.12"></path></svg>
+          </div>
+          <h3>MỞ KHÓA & APP ĐẶC BIỆT</h3>
+          <p>Mở khóa thiết bị, cài app hệ thống, cấp quyền đặc biệt theo yêu cầu (hợp pháp).</p>
+        </article>
+
+        <article class="card reveal">
+          <div class="icon" aria-hidden>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="12" rx="2" stroke="white" stroke-opacity="0.12"></rect></svg>
+          </div>
+          <h3>DỊCH VỤ KHÁC</h3>
+          <p>Tư vấn, backup/restore, cài đặt phần mềm, hỗ trợ từ xa an toàn.</p>
+        </article>
+
+      </div>
+
+      <div style="margin-top:18px;display:flex;justify-content:center">
+        <button class="btn btn-primary" id="moreServices">Tư vấn ngay</button>
+      </div>
+    </section>
+
+    <section id="about" class="reveal" style="padding-bottom:36px">
+      <h3>GIỚI THIỆU</h3>
+      <p class="muted">QUANG ĐỊNH - Kỹ thuật viên chuyên sâu về phần mềm, điện thoại và máy tính. Cam kết an toàn, bảo mật dữ liệu, hỗ trợ từ xa khi cần và báo cáo chi tiết từng bước xử lý.</p>
+
+      <div style="display:flex;gap:18px;margin-top:12px;flex-wrap:wrap">
+        <div class="card" style="flex:1;min-width:240px">
+          <h4 style="margin-top:0">Hỗ trợ từ xa</h4>
+          <p class="small muted">Kết nối an toàn, hướng dẫn từng bước, tiết kiệm thời gian & công sức.</p>
+        </div>
+        <div class="card" style="flex:1;min-width:240px">
+          <h4 style="margin-top:0">Báo cáo chi tiết</h4>
+          <p class="small muted">Mỗi dịch vụ có log & ảnh chụp kết quả, đảm bảo minh bạch.</p>
+        </div>
+        <div class="card" style="flex:1;min-width:240px">
+          <h4 style="margin-top:0">An toàn & bảo mật</h4>
+          <p class="small muted">Nguyên tắc làm việc bảo mật, không chia sẻ dữ liệu ngoài yêu cầu của khách.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" style="padding-bottom:60px">
+      <h3>LIÊN HỆ</h3>
+      <div style="display:grid;grid-template-columns:1fr 320px;gap:18px;margin-top:10px">
+        <div>
+          <p class="muted">Bạn cần trợ giúp nhanh? Gửi tin nhắn hoặc liên hệ trực tiếp.</p>
+          <div class="card">
+            <p style="margin:0">🔧 <strong>QUANG ĐỊNH</strong></p>
+            <p class="muted small" style="margin:6px 0 0">Email: <a href="mailto:luquangdinh447@gmail.com">luquangdinh447@gmail.com</a></p>
+            <p class="muted small" style="margin:4px 0 0">SĐT/ZALO: <a href="tel:+84366170003">036 617 0003</a></p>
+            <div style="margin-top:12px" class="socials">
+  <a class="small muted" href="https://www.facebook.com/profile.php?id=61578359130212" target="_blank">
+    <i class="fab fa-facebook"></i> Facebook
+  </a>
+  <a class="small muted" href="https://youtube.com" target="_blank">
+    <i class="fab fa-youtube"></i> YouTube (CHƯA CÓ)
+  </a>
+  <a class="small muted" href="https://t.me/dinhaz" target="_blank">
+    <i class="fab fa-telegram"></i> Telegram Tích Xanh 
+  </a>
+</div>
+
+            </div>
+          </div>
+        </div>
+
+        <aside>
+          <form action="https://formspree.io/f/xrblrjny" method="POST">
+     <input type="text" name="name" placeholder="Tên của bạn" required>
+     <input type="email" name="email" placeholder="Email" required>
+     <textarea name="message" placeholder="Nội dung" required></textarea>
+     <button type="submit">Gửi</button>
+   </form>
+        </aside>
+      </div>
+    </section>
+
+    <footer>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:18px">
+        <div>
+          <div style="font-weight:700">QUANG ĐỊNH</div>
+          <div class="muted small">Chuyên phần mềm · Điện thoại · Máy tính</div>
+        </div>
+        <div class="muted small">© <span id="year"></span> QUANG ĐỊNH • All rights reserved</div>
+      </div>
+    </footer>
+  </main>
+
+  <div class="floating-contact">
+    <button class="btn btn-primary" id="floatingContactBtn">📲 Liên hệ</button>
   </div>
 
-  <footer>
-    <p>&copy; 2025 Quang Dinh Developer. All rights reserved. | <a href="/privacy-policy.html">Chính sách bảo mật</a> | <a href="https://tinhte.vn" target="_blank">Đối tác Tinhte</a></p>
-  </footer>
+  <script src="js/app.js"></script>
 
-  <script>
-    // Dark mode toggle
-    const toggle = document.getElementById('theme-toggle');
-    toggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark-mode');
-      toggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-    });
-
-    // Search bar function
-    function searchServices() {
-      const input = document.getElementById('search-bar').value.toLowerCase();
-      const cards = document.querySelectorAll('.service-card');
-      cards.forEach(card => {
-        const text = card.textContent.toLowerCase();
-        card.style.display = text.includes(input) ? '' : 'none';
-      });
-    }
-
-    // Scroll-triggered animations
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.hidden').forEach(el => observer.observe(el));
-
-    // Header shrink on scroll
-    window.addEventListener('scroll', () => {
-      const header = document.querySelector('header');
-      if (window.scrollY > 100) {
-        header.classList.add('shrink');
-      } else {
-        header.classList.remove('shrink');
-      }
-    });
-
-    // Active nav link highlight
-    const navLinks = document.querySelectorAll('nav a');
-    navLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        navLinks.forEach(l => l.classList.remove('active'));
-        link.classList.add('active');
-      });
-    });
-
-    // Initial active link
-    const currentSection = window.location.hash.substring(1) || 'home';
-    document.querySelector(`nav a[data-section="${currentSection}"]`).classList.add('active');
-  </script>
+<script src="js/app.js"></script>
 </body>
-  </html>
+
+</html>
